@@ -2211,7 +2211,7 @@ export default function Home() {
         .hide-scroll::-webkit-scrollbar-track { background: transparent; }
         .hide-scroll::-webkit-scrollbar-thumb { background: #1a1d24; border-radius: 4px; }
       `}</style>
-    </div>{/* end body row */}
-    </div>{/* end root column */}
+    </div>
+    </div>
   );
 }
