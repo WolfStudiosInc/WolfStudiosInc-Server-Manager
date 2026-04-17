@@ -1,8 +1,10 @@
 {
   "name": "wolfstudiosinc-server-manager",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "main": "main.js",
+  "author": "NekoWolfDev",
+  "copyright": "Copyright © 2026 WolfStudiosInc. Made by NekoWolfDev.",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -26,17 +28,25 @@
     ],
     "win": {
       "target": [
-        { "target": "nsis", "arch": ["x64"] }
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
       ],
-      "icon": "public/logo.png"
+      "icon": "public/logo.ico",
+      "executableName": "WolfStudiosInc Server Manager"
     },
     "nsis": {
       "oneClick": false,
       "allowToChangeInstallationDirectory": true,
-      "installerIcon": "public/logo.png",
-      "uninstallerIcon": "public/logo.png",
+      "installerIcon": "public/logo.ico",
+      "uninstallerIcon": "public/logo.ico",
+      "installerHeaderIcon": "public/logo.ico",
       "createDesktopShortcut": true,
-      "createStartMenuShortcut": true
+      "createStartMenuShortcut": true,
+      "shortcutName": "WolfStudiosInc Server Manager"
     },
     "publish": {
       "provider": "github",
@@ -56,6 +66,7 @@
     "electron": "^41.2.1",
     "electron-builder": "^26.8.1",
     "eslint": "^9",
-    "eslint-config-next": "16.2.4"
+    "eslint-config-next": "16.2.4",
+    "png-to-ico": "^3.0.1"
   }
 }
