@@ -103,6 +103,7 @@ ipcMain.on('check-for-updates', event => {
 ipcMain.on('install-update', () => {
   autoUpdater.quitAndInstall(false, true);
 });
+ipcMain.handle('get-version', () => app.getVersion());
 
 app.whenReady().then(() => {
   createWindow();

@@ -193,9 +193,10 @@ export default function Home() {
   const fivemPollRef = useRef(null);
 
   // Auto-updater state
-  const [updateStatus, setUpdateStatus] = useState('idle'); // idle | checking | available | downloading | downloaded | error
+  const [updateStatus, setUpdateStatus] = useState('idle'); // idle | checking | available | downloading | downloaded | latest | error
   const [updateVersion, setUpdateVersion] = useState('');
   const [updateProgress, setUpdateProgress] = useState(0);
+  const [appVersion, setAppVersion] = useState('');
 
   const [toasts, setToasts] = useState([]);
   const toastCounter = useRef(0);
@@ -217,8 +218,9 @@ export default function Home() {
   useEffect(() => {
     let ipc;
     try { ipc = window.require('electron').ipcRenderer; } catch { return; }
+    ipc.invoke('get-version').then(v => setAppVersion(v)).catch(() => {});
     const onAvail   = (_, info) => { setUpdateStatus('available');   setUpdateVersion(info.version); };
-    const onNone    = ()       => setUpdateStatus('idle');
+    const onNone    = ()       => setUpdateStatus('latest');
     const onProg    = (_, p)   => { setUpdateStatus('downloading'); setUpdateProgress(Math.round(p.percent)); };
     const onDone    = (_, info) => { setUpdateStatus('downloaded');  setUpdateVersion(info.version); };
     const onErr     = (_, msg) => { setUpdateStatus('error');       setUpdateVersion(msg); };
@@ -845,6 +847,7 @@ export default function Home() {
           <div>
             <div style={{ fontSize: 13, fontWeight: 800, color: 'white', letterSpacing: '-0.3px', lineHeight: 1.2 }}>WolfStudiosInc</div>
             <div style={{ fontSize: 10, color: '#374151', fontWeight: 500, marginTop: 2, letterSpacing: '0.5px' }}>SERVER MANAGER PRO</div>
+            <div style={{ fontSize: 9, color: '#1f2937', marginTop: 1, letterSpacing: '0.3px' }}>by NekoWolfDev</div>
           </div>
         </div>
 
@@ -951,7 +954,14 @@ export default function Home() {
         )}
 
         {/* ── Update button ───────────────────────────────────────── */}
+        {/* Copyright + update button */}
         <div style={{ marginTop: 'auto', paddingTop: 10 }}>
+        <div style={{ padding: '0 2px 8px', fontSize: 9, color: '#1f2937', textAlign: 'center', lineHeight: 1.5 }}>
+          © {new Date().getFullYear()} WolfStudiosInc · Made by NekoWolfDev
+          {appVersion && <div style={{ marginTop: 2, color: '#374151' }}>v{appVersion}</div>}
+        </div>
+
+        <div style={{ paddingTop: 0 }}>
           {updateStatus === 'downloaded' ? (
             <button onClick={installUpdate} style={{
               width: '100%', padding: '9px 12px', borderRadius: 8, border: '1px solid rgba(22,163,74,0.4)',
@@ -974,6 +984,11 @@ export default function Home() {
                 <div style={{ height: '100%', width: `${updateProgress}%`, background: 'linear-gradient(90deg,#7c3aed,#a78bfa)', transition: 'width 0.3s' }} />
               </div>
             </div>
+          ) : updateStatus === 'latest' ? (
+            <div style={{ width: '100%', padding: '8px 12px', borderRadius: 8, border: '1px solid rgba(22,163,74,0.3)', background: 'rgba(22,163,74,0.08)', fontSize: 11, fontWeight: 600, display: 'flex', alignItems: 'center', gap: 7, color: '#4ade80' }}>
+              <CheckCircle size={11} />
+              You have the latest update
+            </div>
           ) : (
             <button onClick={checkForUpdates} disabled={updateStatus === 'checking'} style={{
               width: '100%', padding: '8px 12px', borderRadius: 8, border: '1px solid #1a1d26',
@@ -989,6 +1004,7 @@ export default function Home() {
             </button>
           )}
         </div>
+        </div>{/* end copyright+update wrapper */}
       </div>
 
       {/* Main */}
@@ -2003,7 +2019,7 @@ export default function Home() {
                     <div style={{ fontSize: 10, fontWeight: 700, color: '#374151', textTransform: 'uppercase', letterSpacing: '0.7px', marginBottom: 16 }}>FTP Connection</div>
                     <div style={{ display: 'flex', gap: 12, marginBottom: 14 }}>
                       <Field label="Host / IP Address">
-                        <input type="text" placeholder="51.161.219.145" value={ftpConfig.host}
+                        <input type="text" placeholder="your.server.ip" value={ftpConfig.host}
                           onChange={e => setFtpConfig(c => ({ ...c, host: e.target.value }))}
                           style={{ ...inputStyle }} onFocus={onFocus} onBlur={onBlur} />
                       </Field>
@@ -2017,7 +2033,7 @@ export default function Home() {
                     </div>
                     <div style={{ display: 'flex', gap: 12, marginBottom: 16 }}>
                       <Field label="Username">
-                        <input type="text" placeholder="wolfwarrior141" value={ftpConfig.user}
+                        <input type="text" placeholder="username" value={ftpConfig.user}
                           onChange={e => setFtpConfig(c => ({ ...c, user: e.target.value }))}
                           style={{ ...inputStyle }} onFocus={onFocus} onBlur={onBlur} />
                       </Field>
