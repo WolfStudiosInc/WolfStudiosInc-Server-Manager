@@ -990,6 +990,7 @@ export default function Home() {
               You have the latest update
             </div>
           ) : (
+            <>
             <button onClick={checkForUpdates} disabled={updateStatus === 'checking'} style={{
               width: '100%', padding: '8px 12px', borderRadius: 8, border: '1px solid #1a1d26',
               background: '#0c0e13', color: updateStatus === 'error' ? '#f87171' : '#4b5563',
@@ -1000,8 +1001,12 @@ export default function Home() {
               onMouseLeave={e => { e.currentTarget.style.borderColor = '#1a1d26'; e.currentTarget.style.color = updateStatus === 'error' ? '#f87171' : '#4b5563'; }}
             >
               <RefreshCw size={11} className={updateStatus === 'checking' ? 'spin' : ''} />
-              {updateStatus === 'checking' ? 'Checking…' : updateStatus === 'error' ? 'Update check failed' : 'Check for Updates'}
+              {updateStatus === 'checking' ? 'Checking…' : updateStatus === 'error' ? 'Check failed — retry' : 'Check for Updates'}
             </button>
+            {updateStatus === 'error' && updateVersion && (
+              <div style={{ marginTop: 4, fontSize: 9, color: '#6b7280', wordBreak: 'break-all', lineHeight: 1.4, padding: '0 2px' }}>{updateVersion}</div>
+            )}
+            </>
           )}
         </div>
         </div>{/* end copyright+update wrapper */}
