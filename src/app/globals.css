@@ -1,0 +1,149 @@
+:root {
+  --bg-dark: #0f1115;
+  --bg-panel: #1a1d24;
+  --bg-hover: #2a2e38;
+  --text-main: #f0f2f5;
+  --text-muted: #8e95a5;
+  --accent-color: #6366f1;
+  --accent-hover: #4f46e5;
+  --accent-glow: rgba(99, 102, 241, 0.4);
+  --border-color: #2b303b;
+  --success-color: #10b981;
+  --danger-color: #ef4444;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-dark);
+  color: var(--text-main);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  height: 100vh;
+  overflow: hidden;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  font-family: inherit;
+  color: inherit;
+  transition: all 0.2s ease;
+}
+
+input, select, textarea {
+  font-family: inherit;
+}
+
+/* Glassmorphism utils */
+.glass-panel {
+  background: rgba(26, 29, 36, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-dark); 
+}
+::-webkit-scrollbar-thumb {
+  background: var(--bg-hover); 
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted); 
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(20px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.spin { animation: spin 0.8s linear infinite; }
+
+.hide-scroll::-webkit-scrollbar { width: 4px; }
+.hide-scroll::-webkit-scrollbar-track { background: transparent; }
+.hide-scroll::-webkit-scrollbar-thumb { background: #1f2128; border-radius: 4px; }
+
+/* Game switcher pill */
+.game-pill {
+  display: flex;
+  background: #0a0c10;
+  border: 1px solid #1a1d24;
+  border-radius: 10px;
+  padding: 3px;
+  margin: 0 2px 14px;
+  gap: 3px;
+}
+.game-pill button {
+  flex: 1;
+  padding: 7px 4px;
+  border-radius: 7px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  transition: all 0.18s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  border: none;
+}
+.game-pill button.active-mc {
+  background: linear-gradient(135deg, #16a34a, #15803d);
+  color: white;
+  box-shadow: 0 2px 12px rgba(22,163,74,0.35);
+}
+.game-pill button.active-fivem {
+  background: linear-gradient(135deg, #7c3aed, #5b21b6);
+  color: white;
+  box-shadow: 0 2px 12px rgba(124,58,237,0.35);
+}
+.game-pill button:not(.active-mc):not(.active-fivem) {
+  color: #374151;
+  background: transparent;
+}
+.game-pill button:not(.active-mc):not(.active-fivem):hover {
+  color: #6b7280;
+  background: #111217;
+}
+
+/* Nav item hover */
+.nav-btn:hover {
+  background: rgba(255,255,255,0.03) !important;
+  color: #9ca3af !important;
+}
+
+/* Card hover lift */
+.card-hover {
+  transition: transform 0.18s, box-shadow 0.18s;
+}
+.card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.35) !important;
+}

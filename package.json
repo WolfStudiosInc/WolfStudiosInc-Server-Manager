@@ -1,0 +1,61 @@
+{
+  "name": "wolfstudiosinc-server-manager",
+  "version": "1.0.0",
+  "private": true,
+  "main": "main.js",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "app:dev": "electron .",
+    "app:build": "next build && electron-builder --win",
+    "app:publish": "next build && electron-builder --win --publish always"
+  },
+  "build": {
+    "appId": "com.wolfstudiosinc.servermanager",
+    "productName": "WolfStudiosInc Server Manager",
+    "asar": false,
+    "directories": {
+      "output": "dist-electron"
+    },
+    "files": [
+      "**/*",
+      "!src/**",
+      "!.next/cache/**"
+    ],
+    "win": {
+      "target": [
+        { "target": "nsis", "arch": ["x64"] }
+      ],
+      "icon": "public/logo.png"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "installerIcon": "public/logo.png",
+      "uninstallerIcon": "public/logo.png",
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    },
+    "publish": {
+      "provider": "github",
+      "owner": "WolfStudiosInc",
+      "repo": "WolfStudiosInc-Server-Manager"
+    }
+  },
+  "dependencies": {
+    "basic-ftp": "^5.3.0",
+    "electron-updater": "^6.8.3",
+    "lucide-react": "^1.8.0",
+    "next": "16.2.4",
+    "react": "19.2.4",
+    "react-dom": "19.2.4"
+  },
+  "devDependencies": {
+    "electron": "^41.2.1",
+    "electron-builder": "^26.8.1",
+    "eslint": "^9",
+    "eslint-config-next": "16.2.4"
+  }
+}
